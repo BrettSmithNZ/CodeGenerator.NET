@@ -11,13 +11,13 @@ namespace CodeGenerator.CLI
         static void Main(string[] args)
         {
             Console.WriteLine("Specify your solution directory");
-            string dir =  Console.ReadLine() ;
+            string dir = Console.ReadLine();
             string[] projects = Directory.GetDirectories(dir);
             foreach (var project in projects)
             {
                 string templateDirectory = Path.Combine(project, "_generator", "templates");
                 string buildDefinitionPath = Path.Combine(project, "_generator", "project-build.yaml");
-                if (File.Exists(buildDefinitionPath))
+                if (File.Exists(buildDefinitionPath) && !File.Exists(Path.Combine(project, "_generator", ".exclude")))
                 {
                     string yamlContent = File.ReadAllText(buildDefinitionPath);
                     var buildDefinition = Yaml.ParseYaml(yamlContent);
