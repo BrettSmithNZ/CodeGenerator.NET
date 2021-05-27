@@ -14,10 +14,18 @@ namespace CodeGenerator.Content
                     .Replace("%nameSpace%", nameSpace, StringComparison.InvariantCultureIgnoreCase)
                     .Replace("%typeName%", typeName, StringComparison.InvariantCultureIgnoreCase);
         }
+        public static string Model(this string content, ClassModel classModel)
+        {
+            return content
+                    .Replace("%Models%", classModel.Model.PascalCase().Plural())
+                    .Replace("%Model%", classModel.Model.PascalCase())
+                    .Replace("%models%", classModel.Model.CamelCase().Plural())
+                    .Replace("%model%", classModel.Model.CamelCase());
+        }
         public static string Content(this string content, ClassModel classModel)
         {
             return content
-                    .Replace("%model%", classModel.Model)
+                    .Model(classModel)
                     .Properties("allProperties", classModel.Properties)
                     .Properties("keyProperties", classModel.Properties.Where(o => o.PrimaryKey))
                     .Properties("filterableProperties", classModel.Properties.Where(o => o.Filterable))
@@ -37,7 +45,10 @@ namespace CodeGenerator.Content
                       string result = match.Groups[2].Value;
                       return result
                             .Replace("%type%", property.Nullable ? $"{property.Type}?" : property.Type)
-                            .Replace("%name%", property.Name);
+                            .Replace("%Names%", property.Name.PascalCase().Plural())
+                            .Replace("%Name%", property.Name.PascalCase())
+                            .Replace("%names%", property.Name.CamelCase().Plural())
+                            .Replace("%name%", property.Name.CamelCase());
                   }));
               }, RegexOptions.Compiled);
         }

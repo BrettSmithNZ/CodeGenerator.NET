@@ -12,6 +12,7 @@ namespace CodeGenerator.CLI
         {
             Console.WriteLine("Specify your solution directory");
             string dir = Console.ReadLine();
+            
             string[] projects = Directory.GetDirectories(dir);
             foreach (var project in projects)
             {
@@ -81,7 +82,7 @@ namespace CodeGenerator.CLI
                                     foreach (var templatePart in template.Parts)
                                     {
                                         string templatePartContent = File.ReadAllText(Path.Combine(templateDirectory, $"{templateName}.{templatePart.Name}.template"));
-                                        string fileName = Path.Combine(project, templateName, templatePart.FileName.Replace("%model%", classModel.Model));
+                                        string fileName = Path.Combine(project, templateName, templatePart.FileName.Model(classModel));
                                         File.WriteAllText(fileName, templatePartContent.Content(classModel).Globals(nameSpace, typeName));
                                     }
                                 }
@@ -92,7 +93,7 @@ namespace CodeGenerator.CLI
                                         throw new Exception($"Template parts are not supported for combined models, please specify filename for template {templateName}");
                                     }
                                     string templateContent = File.ReadAllText(Path.Combine(templateDirectory, $"{templateName}.class.template"));
-                                    string fileName = Path.Combine(project, templateName, template.FileName.Replace("%model%", classModel.Model));
+                                    string fileName = Path.Combine(project, templateName, template.FileName.Model(classModel));
                                     File.WriteAllText(fileName, templateContent.Content(classModel).Globals(nameSpace, typeName));
 
                                 }
