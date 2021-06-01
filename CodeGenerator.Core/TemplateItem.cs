@@ -10,6 +10,7 @@ namespace CodeGenerator.Core
     {
         public string Name { get; set; }
         public bool? Consolidated { get; set; }
+        public bool? UseProjectDirectory { get; set; }
         public IEnumerable<TemplatePart> Parts { get; set; }
         public string FileName { get; set; } = null;
     }
