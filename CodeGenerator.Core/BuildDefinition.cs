@@ -13,5 +13,6 @@ namespace CodeGenerator.Core
         public string TemplatesDefinition { get; set; }
         public string TemplateDirectory { get; set; }
         public IEnumerable<ClassModel> Models { get; set; }
+        public string ModelsDefinition { get; set; }
     }
 }

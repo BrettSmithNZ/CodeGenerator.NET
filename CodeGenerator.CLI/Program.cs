@@ -28,6 +28,12 @@ namespace CodeGenerator.CLI
                         var templateDefinition = Yaml.ParseYaml(templateDefinitionYaml);
                         buildDefinition.Templates = templateDefinition.Templates;
                     }
+                    if (!string.IsNullOrWhiteSpace(buildDefinition.ModelsDefinition))
+                    {
+                        string modelsDefinitionYaml = File.ReadAllText(buildDefinition.ModelsDefinition.Replace("%baseDirectory%", baseDirectory));
+                        var modelDefinition = Yaml.ParseYaml(modelsDefinitionYaml);
+                        buildDefinition.Models = modelDefinition.Models;
+                    }
 
                     if (File.Exists(Path.Combine(project, "class1.cs")))
                     {
