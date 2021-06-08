@@ -28,8 +28,11 @@ namespace CodeGenerator.Content
                     .Model(classModel)
                     .Properties("allProperties", classModel.Properties)
                     .Properties("keyProperties", classModel.Properties.Where(o => o.PrimaryKey))
+                    .Properties("!keyProperties", classModel.Properties.Where(o => !o.PrimaryKey))
                     .Properties("filterableProperties", classModel.Properties.Where(o => o.Filterable))
-                    .Properties("editableProperties", classModel.Properties.Where(o => !o.ReadOnly));
+                    .Properties("!filterableProperties", classModel.Properties.Where(o => !o.Filterable))
+                    .Properties("editableProperties", classModel.Properties.Where(o => !o.ReadOnly))
+                    .Properties("!editableProperties", classModel.Properties.Where(o => o.ReadOnly));
         }
         public static string Properties(this string content, string identifier, IEnumerable<PropertyModel> properties)
         {
